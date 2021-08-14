@@ -1,5 +1,7 @@
 const express = require("express");
 
+const cookieParser = require("cookie-parser");
+
 // Envirnoment Variable from file support
 require("dotenv").config();
 
@@ -8,6 +10,7 @@ const app = express();
 // Body Parser Support
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "welcome to home page!" });

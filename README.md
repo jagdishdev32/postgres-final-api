@@ -15,6 +15,8 @@
   - [x] Employee add api for registration
   - [x] Employee login api
 
+- [x] Logged in Check
+
 - [ ] Insurance and Ticket (after user login)
 
   - [x] Insurance (and insurance type) and ticket modal

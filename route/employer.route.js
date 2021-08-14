@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const pool = require("../db");
 
+const { employeeLoggedIn } = require("../action/loggin.action");
+
 //TODO comment / remove employee list access
 router.get("/", (req, res) => {
   pool.query("SELECT * FROM employees", (error, result) => {
@@ -61,7 +63,10 @@ router.post("/login", (req, res) => {
     }
 
     if (result.rowCount == 1) {
-      // console.log(result.rowCount);
+      const employee_id = result.rows[0].employee_id;
+
+      employeeLoggedIn(req, res, employee_id);
+
       res.json({ message: "employee Authenticated" });
     } else {
       res.json({ message: "employee Not authenticated" });

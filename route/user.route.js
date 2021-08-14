@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const pool = require("../db");
 
+const { userLoggedIn } = require("../action/loggin.action");
+
 //TODO comment / remove user list access
 router.get("/", (req, res) => {
   pool.query("SELECT * FROM users", (error, result) => {
@@ -9,7 +11,6 @@ router.get("/", (req, res) => {
       // throw error;
       console.log(error);
     }
-    console.log(result.rows);
     res.status(200).json(result.rows);
   });
 });
@@ -58,7 +59,9 @@ router.post("/login", (req, res) => {
     }
 
     if (result.rowCount == 1) {
-      // console.log(result.rowCount);
+      const user_id = result.rows[0].user_id;
+      console.log(user_id);
+      userLoggedIn(req, res, user_id);
       res.json({ message: "User Authenticated" });
     } else {
       res.json({ message: "User Not authenticated" });
