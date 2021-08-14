@@ -23,10 +23,10 @@
   - [x] User add Insurance details api
   - [x] Ticket generate Api
 
-- [ ] Employer Manage Tickets
+- [x] Employer Manage Tickets
 
   - [x] View all Tickets api (only for employer)
-  - [ ] Create insurance type
-  - [ ] Make changes in Tickets
+  - [x] Create insurance type
+  - [x] Make changes in Tickets
 
 - [ ] Miscellaneous Improvements

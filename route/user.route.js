@@ -3,6 +3,8 @@ const pool = require("../db");
 
 const { userLoggedIn, userLoggedInCheck } = require("../action/loggin.action");
 
+const createInsuranceType = require("../action/createInsuranceType.action");
+
 //TODO comment / remove user list access
 router.get("/", (req, res) => {
   pool.query("SELECT * FROM users", (error, result) => {
@@ -83,6 +85,8 @@ router.post("/addInsuranceDetails", (req, res) => {
   //TODO NOT GOOD PRATICE TO TAKE USER ID FROM USER SIDE
   const { user_id } = req.cookies;
 
+  //TODO Check if values already update and then return null;
+
   const query = {
     text: "INSERT INTO insurance (insurance_type, user_id) VALUES ($1, $2)",
     values: [insurance_type, user_id],
@@ -94,10 +98,10 @@ router.post("/addInsuranceDetails", (req, res) => {
       res.status(400).json({ error: error });
     }
 
-    //TODO GenerateTicket
-    generateTicket(req, res, result);
+    let ins_type_msg = createInsuranceType(req, res, user_id, insurance_type);
+
     console.log(result);
-    res.json({ message: "Insurance Details updated" });
+    res.json({ message: "Insurance Details updated & " + ins_type_msg });
   });
 });
 
@@ -109,6 +113,8 @@ router.post("/generateTicket", (req, res) => {
     res.status(404).json({ warning: "User is not logged in" });
     return;
   }
+
+  //TODO Check if ticket not already generated
 
   //TODO NOT GOOD PRATICE TO TAKE USER ID FROM USER SIDE
   const { user_id } = req.cookies;
@@ -132,10 +138,6 @@ router.post("/generateTicket", (req, res) => {
     }
 
     const { insurance_id } = result.rows[0];
-    // ticket_id INT NOT NULL,
-    // insurance_id INT NOT NULL,
-    // status INT DEFAULT 0,
-    // comments text,
 
     query = {
       text: "INSERT INTO tickets (ticket_id, insurance_id, comments) VALUES ($1, $2, $3)",
