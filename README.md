@@ -9,15 +9,15 @@
   - [x] User Add api for registration
   - [x] Login api
 
-- [ ] Employee Login
+- [x] Employee Login
 
-  - [ ] Employee modal
-  - [ ] Employee add api
-  - [ ] Employee login api
+  - [x] Employee modal
+  - [x] Employee add api for registration
+  - [x] Employee login api
 
 - [ ] Insurance and Ticket (after user login)
 
-  - [ ] Insurance (and insurance type) and ticket modal
+  - [x] Insurance (and insurance type) and ticket modal
   - [ ] User add Insurance details api
   - [ ] Ticket generate Api
 

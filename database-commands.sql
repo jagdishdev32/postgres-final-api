@@ -1,8 +1,8 @@
 CREATE DATABASE api_database;
 
---\c into api_database
+-- \c api_database
 
-create table users (
+CREATE TABLE users (
 	user_id INT NOT NULL, 
 	name VARCHAR(50) NOT NULL,
 	email VARCHAR(50) NOT NULL UNIQUE,
@@ -32,8 +32,6 @@ insert into users (user_id, name, email, password, phone_number) values (18, 'Ga
 insert into users (user_id, name, email, password, phone_number) values (19, 'Blythe Gilffilland', 'bgilffillandi@un.org', 'u0WOeTNuJ', '1784342867');
 insert into users (user_id, name, email, password, phone_number) values (20, 'Freddy Kinnear', 'fkinnearj@latimes.com', 'UuCgQUzwN4D', '9087888556');
 
-
-
 -- Post Req data
 -- {
 --     "user_id": "20",
@@ -42,3 +40,117 @@ insert into users (user_id, name, email, password, phone_number) values (20, 'Fr
 --     "password": "UuCgQUzwN4D",
 --     "phone_number": "9087888556"
 --   }
+
+-- Employee schema
+
+CREATE TABLE employees (
+	employee_id INT NOT NULL, 
+	name VARCHAR(50) NOT NULL,
+	password VARCHAR(50) NOT NULL,
+	PRIMARY KEY(employee_id)
+);
+
+insert into employees (employee_id, name, password) values (1, 'Nick Habbema', 'L4xJFhRrNR');
+insert into employees (employee_id, name, password) values (2, 'Maddie Leacock', '6GC1zpLKf');
+insert into employees (employee_id, name, password) values (3, 'Brooke Philipsohn', '0Q9fOTZjE');
+insert into employees (employee_id, name, password) values (4, 'Zebadiah Crimes', 'gZG0Rbxlq');
+insert into employees (employee_id, name, password) values (5, 'Brenn Laughtisse', 'W15yGYdZEv7');
+
+-- Insurance Schema
+
+CREATE TABLE insurance (
+	insurance_id SERIAL NOT NULL,
+	user_id INT NOT NULL,
+	insurance_type VARCHAR(50) NOT NULL,
+	issue_date DATE,
+	end_date DATE,
+	application_date DATE DEFAULT NOW(),
+	PRIMARY KEY(insurance_id),
+	CONSTRAINT insurance_id FOREIGN KEY(user_id) REFERENCES users(user_id),
+	CHECK (insurance_type = 'covid_insurance' OR insurance_type = 'health_insurance' OR insurance_type = 'gold_insurance')
+);
+
+insert into insurance (insurance_id, user_id, insurance_type, application_date) values (1, 8, 'covid_insurance', '5/9/2021');
+insert into insurance (insurance_id, user_id, insurance_type, application_date) values (2, 6, 'health_insurance', '3/13/2021');
+insert into insurance (insurance_id, user_id, insurance_type, application_date) values (3, 10, 'health_insurance', '8/11/2020');
+insert into insurance (insurance_id, user_id, insurance_type, application_date) values (4, 2, 'covid_insurance', '4/4/2021');
+insert into insurance (insurance_id, user_id, insurance_type, application_date) values (5, 8, 'covid_insurance', '7/6/2021');
+insert into insurance (insurance_id, user_id, insurance_type, application_date) values (6, 10, 'health_insurance', '7/21/2021');
+insert into insurance (insurance_id, user_id, insurance_type, application_date) values (7, 6, 'health_insurance', '11/30/2020');
+insert into insurance (insurance_id, user_id, insurance_type, application_date) values (8, 1, 'covid_insurance', '8/23/2020');
+insert into insurance (insurance_id, user_id, insurance_type, application_date) values (9, 7, 'gold_insurance', '3/21/2021');
+insert into insurance (insurance_id, user_id, insurance_type, application_date) values (10, 9, 'gold_insurance', '4/3/2021');
+insert into insurance (insurance_id, user_id, insurance_type, application_date) values (11, 5, 'covid_insurance', '3/7/2021');
+insert into insurance (insurance_id, user_id, insurance_type, application_date) values (12, 10, 'health_insurance', '3/5/2021');
+insert into insurance (insurance_id, user_id, insurance_type, application_date) values (13, 3, 'health_insurance', '11/24/2020');
+insert into insurance (insurance_id, user_id, insurance_type, application_date) values (14, 3, 'gold_insurance', '7/24/2021');
+insert into insurance (insurance_id, user_id, insurance_type, application_date) values (15, 6, 'gold_insurance', '6/21/2021');
+insert into insurance (insurance_id, user_id, insurance_type, application_date) values (16, 6, 'gold_insurance', '8/27/2020');
+insert into insurance (insurance_id, user_id, insurance_type, application_date) values (17, 9, 'health_insurance', '4/24/2021');
+insert into insurance (insurance_id, user_id, insurance_type, application_date) values (18, 5, 'covid_insurance', '5/1/2021');
+insert into insurance (insurance_id, user_id, insurance_type, application_date) values (19, 2, 'covid_insurance', '8/15/2020');
+insert into insurance (insurance_id, user_id, insurance_type, application_date) values (20, 3, 'covid_insurance', '2/9/2021');
+
+-- Tickets schema
+
+CREATE TABLE tickets (
+	ticket_id INT NOT NULL,
+	insurance_id INT NOT NULL,
+	status TINYINT DEFAULT 0,
+	comments text,
+	-- Relation with employees with what ?
+	CONSTRAINT insurance_id FOREIGN KEY(insurance_id) REFERENCES insurance(insurance_id)
+);
+
+-- Ticket post generate
+-- [{
+--   "ticket_id": 1,
+--   "insurance_id": 4,
+--   "status": 0,
+--   "comments": ""
+-- }, {
+--   "ticket_id": 2,
+--   "insurance_id": 5,
+--   "status": 0,
+--   "comments": ""
+-- }, {
+--   "ticket_id": 3,
+--   "insurance_id": 3,
+--   "status": 0,
+--   "comments": ""
+-- }, {
+--   "ticket_id": 4,
+--   "insurance_id": 5,
+--   "status": 0,
+--   "comments": ""
+-- }, {
+--   "ticket_id": 5,
+--   "insurance_id": 3,
+--   "status": 0,
+--   "comments": ""
+-- }]
+
+-- Insurance Type Schema
+
+CREATE TABLE covid_insurance (
+	insurance_id INT NOT NULL,
+	nominee_info VARCHAR(200),
+	policy_number VARCHAR(100),
+	CONSTRAINT insurance_id FOREIGN KEY(insurance_id) REFERENCES insurance(insurance_id)
+);
+
+CREATE TABLE health_insurance (
+	insurance_id INT NOT NULL,
+	nominee_info VARCHAR(200),
+	health_insurance_type VARCHAR(200),
+	policy_number VARCHAR(100),
+	CONSTRAINT insurance_id FOREIGN KEY(insurance_id) REFERENCES insurance(insurance_id)
+);
+
+
+CREATE TABLE gold_insurance (
+	insurance_id INT NOT NULL,
+	gst_details TEXT NOT NULL,
+	policy_number VARCHAR(100),
+	CONSTRAINT insurance_id FOREIGN KEY(insurance_id) REFERENCES insurance(insurance_id)
+);

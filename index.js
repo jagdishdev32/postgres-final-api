@@ -15,9 +15,11 @@ app.get("/", (req, res) => {
 
 // Routes Imports
 const userRoute = require("./route/user.route");
+const employeeRoute = require("./route/employer.route");
 
 // Routes
 app.use("/api/user", userRoute);
+app.use("/api/employee", employeeRoute);
 
 const PORT = process.env.PORT || 3000;
 
