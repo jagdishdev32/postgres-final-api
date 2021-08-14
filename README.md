@@ -3,11 +3,11 @@
 ## Steps
 
 - [x] Basic Express app
-- [ ] User API for register and Login
+- [x] User API for register and Login
 
-  - [ ] User modal
-  - [ ] User Add api for registration
-  - [ ] Login api
+  - [x] User modal
+  - [x] User Add api for registration
+  - [x] Login api
 
 - [ ] Employee Login
 
@@ -26,4 +26,4 @@
   - [ ] View all Tickets api (only for employer)
   - [ ] Make changes in Tickets
 
--     [ ] Miscellaneous Improvements
+- [ ] Miscellaneous Improvements
