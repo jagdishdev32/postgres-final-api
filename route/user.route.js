@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const pool = require("../db");
 
-const { userLoggedIn } = require("../action/loggin.action");
+const { userLoggedIn, userLoggedInCheck } = require("../action/loggin.action");
 
 //TODO comment / remove user list access
 router.get("/", (req, res) => {
@@ -66,6 +66,90 @@ router.post("/login", (req, res) => {
     } else {
       res.json({ message: "User Not authenticated" });
     }
+  });
+});
+
+// Method POST /api/user/addInsuranceDetails
+// Desc   Adding Insurance details by user
+// auth   private (access by user only)
+router.post("/addInsuranceDetails", (req, res) => {
+  if (!userLoggedInCheck(req, res)) {
+    res.status(404).json({ warning: "User is not logged in" });
+    return;
+  }
+
+  const { insurance_type } = req.body;
+
+  //TODO NOT GOOD PRATICE TO TAKE USER ID FROM USER SIDE
+  const { user_id } = req.cookies;
+
+  const query = {
+    text: "INSERT INTO insurance (insurance_type, user_id) VALUES ($1, $2)",
+    values: [insurance_type, user_id],
+  };
+
+  pool.query(query, (error, result) => {
+    if (error) {
+      console.log(error);
+      res.status(400).json({ error: error });
+    }
+
+    //TODO GenerateTicket
+    generateTicket(req, res, result);
+    console.log(result);
+    res.json({ message: "Insurance Details updated" });
+  });
+});
+
+// Method POST /api/user/generateTicket
+// Desc   generating ticket after insurance detail
+// auth   private (access by user only)
+router.post("/generateTicket", (req, res) => {
+  if (!userLoggedInCheck(req, res)) {
+    res.status(404).json({ warning: "User is not logged in" });
+    return;
+  }
+
+  //TODO NOT GOOD PRATICE TO TAKE USER ID FROM USER SIDE
+  const { user_id } = req.cookies;
+
+  const { ticket_id, comments } = req.body;
+
+  let query = `SELECT insurance_id FROM insurance WHERE user_id=${user_id}`;
+
+  // Taking insurance_id of user
+  pool.query(query, (error, result) => {
+    if (error) {
+      console.log(error);
+      res.status(400).json({ error: error });
+    }
+
+    // If insurance details not yet updated reject it
+    if (result.rows.length < 1) {
+      res.json({
+        warning: "Please complete Insurance Detail first, then retry",
+      });
+    }
+
+    const { insurance_id } = result.rows[0];
+    // ticket_id INT NOT NULL,
+    // insurance_id INT NOT NULL,
+    // status INT DEFAULT 0,
+    // comments text,
+
+    query = {
+      text: "INSERT INTO tickets (ticket_id, insurance_id, comments) VALUES ($1, $2, $3)",
+      values: [ticket_id, insurance_id, comments],
+    };
+
+    pool.query(query, (error, result) => {
+      if (error) {
+        console.log(error);
+        res.status(400).json({ error: error });
+      }
+
+      res.json({ message: "Ticket generated successfully..." });
+    });
   });
 });
 

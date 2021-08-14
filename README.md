@@ -17,15 +17,16 @@
 
 - [x] Logged in Check
 
-- [ ] Insurance and Ticket (after user login)
+- [x] Insurance and Ticket (after user login)
 
   - [x] Insurance (and insurance type) and ticket modal
-  - [ ] User add Insurance details api
-  - [ ] Ticket generate Api
+  - [x] User add Insurance details api
+  - [x] Ticket generate Api
 
 - [ ] Employer Manage Tickets
 
-  - [ ] View all Tickets api (only for employer)
+  - [x] View all Tickets api (only for employer)
+  - [ ] Create insurance type
   - [ ] Make changes in Tickets
 
 - [ ] Miscellaneous Improvements
