@@ -98,10 +98,13 @@ router.post("/addInsuranceDetails", (req, res) => {
       res.status(400).json({ error: error });
     }
 
-    let ins_type_msg = createInsuranceType(req, res, user_id, insurance_type);
+    createInsuranceType(req, res, user_id, insurance_type);
 
     console.log(result);
-    res.json({ message: "Insurance Details updated & " + ins_type_msg });
+    res.json({
+      message:
+        "Insurance Details Updated & Insurance Type Created Succesfully.",
+    });
   });
 });
 

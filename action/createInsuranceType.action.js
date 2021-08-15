@@ -33,6 +33,8 @@ const createInsuranceType = (req, res, user_id, insurance_type) => {
         res.status(400).json({ error: error });
       }
 
+      // console.log("Insurance Type created succesfully");
+
       return "Insurance type created successfully.";
 
       // res.json({ message: "Covid_insurance" });
