@@ -30,3 +30,4 @@
   - [x] Make changes in Tickets
 
 - [ ] Miscellaneous Improvements
+  - [ ] Known Bugs fixed

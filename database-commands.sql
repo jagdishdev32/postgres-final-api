@@ -45,7 +45,7 @@ insert into users (user_id, name, email, password, phone_number) values (20, 'Fr
 
 CREATE TABLE employees (
 	employee_id INT NOT NULL, 
-	name VARCHAR(50) NOT NULL,
+	name VARCHAR(50) NOT NULL UNIQUE,
 	password VARCHAR(50) NOT NULL,
 	PRIMARY KEY(employee_id)
 );
@@ -103,11 +103,11 @@ CREATE TABLE tickets (
 	CONSTRAINT insurance_id FOREIGN KEY(insurance_id) REFERENCES insurance(insurance_id)
 );
 
-insert into insurance (ticket_id, insurance_id, status, comments) values (1, 3, 0, '');
-insert into insurance (ticket_id, insurance_id, status, comments) values (2, 6, 0, '');
-insert into insurance (ticket_id, insurance_id, status, comments) values (3, 8, 0, '');
-insert into insurance (ticket_id, insurance_id, status, comments) values (4, 9, 0, '');
-insert into insurance (ticket_id, insurance_id, status, comments) values (5, 3, 0, '');
+-- insert into tickets (ticket_id, insurance_id, status, comments) values (1, 3, 0, '');
+-- insert into tickets (ticket_id, insurance_id, status, comments) values (2, 6, 0, '');
+-- insert into tickets (ticket_id, insurance_id, status, comments) values (3, 8, 0, '');
+-- insert into tickets (ticket_id, insurance_id, status, comments) values (4, 9, 0, '');
+-- insert into tickets (ticket_id, insurance_id, status, comments) values (5, 3, 0, '');
 
 -- Ticket post generate
 -- [{

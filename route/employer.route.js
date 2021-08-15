@@ -65,7 +65,9 @@ router.post("/login", (req, res) => {
       console.log(err);
     }
 
-    if (result.rowCount == 1) {
+    // If Employee with name and password existed
+    // if employee name and password exists more than 0
+    if (result.rowCount > 0) {
       const employee_id = result.rows[0].employee_id;
 
       employeeLoggedIn(req, res, employee_id);

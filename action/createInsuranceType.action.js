@@ -2,7 +2,7 @@ const pool = require("../db");
 
 const createInsuranceType = (req, res, user_id, insurance_type) => {
   // First getting user_id due to one error
-  let query = `SELECT insurance_id FROM insurance WHERE user_id=${user_id}`;
+  let query = `SELECT insurance_id FROM insurance WHERE user_id='${user_id}'`;
 
   // Taking insurance_id of user
   pool.query(query, (error, result) => {
@@ -12,6 +12,7 @@ const createInsuranceType = (req, res, user_id, insurance_type) => {
     }
 
     // If insurance details not yet updated reject it
+    // TODO fix bug for if more then 1 user with same email
     if (result.rows.length < 1) {
       res.json({
         warning: "Please complete Insurance Detail first, then retry",
